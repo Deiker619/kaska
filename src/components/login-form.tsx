@@ -28,6 +28,7 @@ export function LoginForm({
   });
 
   const handleLogin = async (data: LoginUserCurrently) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     await login(data); 
     reset();
   };
