@@ -3,12 +3,16 @@ import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 export const PublicRoute = () => {
-  const session = useAuthStore((state) => state.session);
+  const user = useAuthStore((state) => state.user);
   const loading = useAuthStore((state) => state.loading);
-  const user = localStorage.getItem("session") ?? null;
+  const checkSession = useAuthStore((state) => state.checkSession)
   useEffect(() => {
-    console.log(session);
-  }, [session]);
+    checkSession()
+    return () => {
+      const unsubscribe = useAuthStore.getState().unsubscribe;
+      if (unsubscribe) unsubscribe();
+    };
+  }, []);
 
   if (loading) {
     return (
@@ -17,7 +21,7 @@ export const PublicRoute = () => {
       </div>
     );
   }
-  if (session && user) return <Navigate to="/dashboard" replace />;
+  if (user) return <Navigate to="/dashboard" replace />;
 
   return <Outlet />;
 };

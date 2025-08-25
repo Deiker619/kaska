@@ -4,16 +4,17 @@ import { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 export const ProtectedRoute = () => {
-  const session = useAuthStore((state) => state.session);
+  const user = useAuthStore((state) => state.user);
   const loading = useAuthStore((state) => state.loading);
+  const checkSession = useAuthStore((state)=> state.checkSession)
   
   useEffect(() => {
-    console.log("Estado de session:", session, "loading:", loading);
-  }, [session, loading]);
+   checkSession()
+  }, []);
   if (loading ) {
     return <div className="flex justify-center items-center h-screen">Cargando...</div>;
   }
-  if (!session) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
   return <Outlet />;

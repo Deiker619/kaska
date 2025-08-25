@@ -6,6 +6,16 @@ export interface User {
   updatedAt?: string; // Última fecha de actualización
 }
 
+export type UserSession=Pick<User, 'email'>&{
+  id: string;
+  role: string;
+  lastSignInAt: string;
+  createdAt: string;
+  emailVerified: boolean;
+
+}
+
+
 export interface LoginUserCurrently {
   email: string;
   password: string;

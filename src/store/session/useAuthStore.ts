@@ -1,46 +1,47 @@
-import type { User } from "@/interfaces/User";
+import { supabase } from "@/api/api";
+import type { UserSession } from "@/interfaces/User";
 import { create } from "zustand";
 
 interface AuthState {
-  user: User | null;
+  user: UserSession | null;
   session: boolean;
   loading: boolean;
-  setSession: () => void;
+  setSession: (session: UserSession) => void;
   logout: () => void;
+  checkSession: () => void;
+  unsubscribe?: () => void; 
 }
 
-const STORAGE_KEY = "session";
 
-const fakeUser: User = {
-  id: "1",
-  name: 'Deiker Fernandez',
-  email: "deiker1842@gmail.com",
-  createdAt: "",
-  updatedAt: "",
-};
-
-const getStoredUser = (): User | null => {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : null;
-};
 
 export const useAuthStore = create<AuthState>((set) => ({
-  user: getStoredUser(),
-  session: !!getStoredUser(),
+  user: null,
+  session: false,
   loading: false,
+  unsubscribe: undefined,
 
-  setSession: () => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(fakeUser));
-
+  setSession: (user: UserSession) => {
     set({
       session: true,
-      user: fakeUser ?? null,
+      user: user ?? null,
       loading: false,
     });
   },
+  checkSession: async () => {
+    set({loading:true})
+    const { data } = await supabase.auth.getSession();
+    set({ user: (data.session?.user) as unknown as UserSession ?? null, loading: false });
 
-  logout: () => {
-    localStorage.removeItem(STORAGE_KEY);
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      set({ user: (session?.user as unknown as UserSession) ?? null, loading: false });
+    });
+
+    set({ unsubscribe: listener.subscription.unsubscribe });
+  },
+
+  logout: async () => {
+    set({loading:true})
+    await supabase.auth.signOut();
     set({
       session: false,
       user: null,

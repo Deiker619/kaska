@@ -30,12 +30,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useAuthStore } from "@/store/session/useAuthStore"
-import type { User } from "@/interfaces/User"
+import type { UserSession } from "@/interfaces/User"
 
 export function NavUser({
   user,
 }: {
-  user: User
+  user: UserSession
 }) {
   const { isMobile } = useSidebar()
   const logout = useAuthStore((store)=>store.logout)
@@ -52,7 +52,7 @@ export function NavUser({
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">{user?.name??'Desconocido'}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -70,7 +70,7 @@ export function NavUser({
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate font-medium">{user.name??'Desconocido'}</span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>

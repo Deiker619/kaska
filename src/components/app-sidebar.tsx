@@ -6,6 +6,7 @@ import {
   Command,
   LayoutDashboard,
   GalleryVerticalEnd,
+  BoxIcon,
   Settings2,
   SquareTerminal,
 } from "lucide-react"
@@ -134,6 +135,11 @@ const data = {
       name: "Dashboard",
       url: "/dashboard",
       icon: LayoutDashboard,
+    },
+    {
+      name: "Productos",
+      url: "/dashboard/productos",
+      icon: BoxIcon,
     },
     
   ],

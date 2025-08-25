@@ -7,7 +7,6 @@ import { useLogin } from "@/hooks/useLogin";
 import type { LoginUserCurrently } from "@/interfaces/User";
 import { useForm } from "react-hook-form";
 import { Spinner } from "./ui/spinner";
-import { useEffect } from "react";
 export function LoginForm({
   className,
   ...props
@@ -23,9 +22,6 @@ export function LoginForm({
     defaultValues: { email: "", password: "" },
   });
 
-  useEffect(() => {
-    console.log("isSubmiting: ", isSubmitting);
-  });
 
   const handleLogin = async (data: LoginUserCurrently) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
