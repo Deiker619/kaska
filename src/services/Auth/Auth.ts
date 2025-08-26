@@ -14,5 +14,5 @@ export const LoginCurrently = async (user: LoginUserCurrently) => {
     return 
   }
 
-  return data.user as UserSession;
+  return data.user as unknown as UserSession;
 };
