@@ -28,6 +28,7 @@ export const ProductForm = ({ mode, dialogTitle, producto }: PropsModal) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isValid },
   } = useForm<ProductoCreate>({
     mode: "onChange",
@@ -43,6 +44,7 @@ export const ProductForm = ({ mode, dialogTitle, producto }: PropsModal) => {
   const { createProduct } = useProductos()
   const handleCreate = (producto: ProductoCreate) => {
     createProduct(producto)
+    reset()
   };
 
   return (

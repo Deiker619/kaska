@@ -10,12 +10,18 @@ const headers = [
   { key: "precio", label: "Precio", style: "normal" },
   { key: "categorias.nombre", label: "Categoría", style: "badge" },
   { key: "marcas.nombre", label: "Marcas", style: "normal" },
+
 ];
 export const Productos = () => {
-  const { productos } = useProductos();
+  const { productos, handleDelete } = useProductos();
+
+  const handleUpdate = (producto: Producto) => {
+    console.log(producto)
+  }
 
   return (
     <>
+
       <div className=" py-4 lg:px-6 space-y-4">
         <div className="border rounded-2xl p-4">
           <div className="flex  w-full items-center">
@@ -37,7 +43,10 @@ export const Productos = () => {
             data={productos as Producto[]}
             headers={headers}
             title={LABEL_ELEMENT}
+            onEdit={(producto) => handleUpdate(producto)}
+            onDelete={(producto) => handleDelete(producto)}
           />
+
         </div>
       </div>
     </>
